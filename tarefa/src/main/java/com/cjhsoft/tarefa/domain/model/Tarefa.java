@@ -23,7 +23,7 @@ public class Tarefa {
 	
 	private String titulo;
 	
-	private String descricai;
+	private String descricao;
 	
 	private Date vencimento;
 	
