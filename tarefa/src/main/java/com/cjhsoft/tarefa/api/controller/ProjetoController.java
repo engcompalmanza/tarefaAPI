@@ -42,7 +42,8 @@ public class ProjetoController {
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public ProjetoOutput cadastro(@Valid @RequestBody ProjetoInput projetoInput) {
 		Projeto entidadeProjeto = projetoMapper.toEntity(projetoInput);
-		return projetoMapper.toModelOutput( projetoService.cadastrar(entidadeProjeto) );
+		Projeto projetoCadastrado = projetoService.cadastrar(entidadeProjeto);
+		return projetoMapper.toModelOutput(projetoCadastrado);
 	}
 	
 }
