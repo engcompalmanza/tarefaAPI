@@ -17,7 +17,7 @@ public class ProjetoMapper {
 	}
 	
 	public ProjetoOutput toModelOutput(Projeto projeto) {
-		ProjetoOutput projetoOutput = new ProjetoOutput(projeto.getNome(), projeto.getDescricao());
+		ProjetoOutput projetoOutput = new ProjetoOutput(projeto.getId() ,projeto.getNome(), projeto.getDescricao());
 		return projetoOutput;
 	}
 	

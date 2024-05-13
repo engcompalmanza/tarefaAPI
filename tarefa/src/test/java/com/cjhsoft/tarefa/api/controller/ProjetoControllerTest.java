@@ -56,7 +56,7 @@ public class ProjetoControllerTest {
   public void setup() {
   	projetoInput = new ProjetoInput("nome-teste", "descricao-teste");
   	projeto = new Projeto(1L, "nome-teste", "descricao-teste");
-  	projetoOutput = new ProjetoOutput("nome-teste", "descricao-teste");
+  	projetoOutput = new ProjetoOutput(1L, "nome-teste", "descricao-teste");
   	
   	projeInputComErroDeValidacao = new ProjetoInput(null, "descricao-teste");
   	

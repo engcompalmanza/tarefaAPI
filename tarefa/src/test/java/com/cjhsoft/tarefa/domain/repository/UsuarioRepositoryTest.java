@@ -2,6 +2,7 @@ package com.cjhsoft.tarefa.domain.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +42,7 @@ public class UsuarioRepositoryTest {
 		projetoRepository.save(projeto);
 		
 		this.tarefa = new Tarefa(null, "porta", "porta do carro voador", 
-				new Date(), true, Status.EM_ANDAMENTO, projeto);
+				LocalDate.now(), true, Status.EM_ANDAMENTO, projeto);
 		tarefaRepository.save(tarefa);
 		
 		this.usuario = new Usuario(null, "jose", "jose@gmail.com", "123456", List.of(tarefa));

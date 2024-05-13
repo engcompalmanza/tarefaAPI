@@ -7,7 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class ProjetoOutput {
 
-	//private Long id;
+	private Long id;
 	
 	private String nome_do_Projeto;
 	

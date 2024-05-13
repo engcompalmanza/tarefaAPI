@@ -3,6 +3,7 @@ package com.cjhsoft.tarefa.domain.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
 
@@ -36,7 +37,7 @@ public class TarefaRepositoryTest {
 		projetoRepository.save(projeto);
 		
 		this.tarefa = new Tarefa(null, "porta", "porta do carro voador", 
-				new Date(), true, Status.EM_ANDAMENTO, projeto);
+				LocalDate.now(), true, Status.EM_ANDAMENTO, projeto);
 	}
 	
 	@Test

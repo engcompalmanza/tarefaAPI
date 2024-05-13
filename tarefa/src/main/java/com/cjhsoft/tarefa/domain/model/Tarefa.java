@@ -1,8 +1,9 @@
 package com.cjhsoft.tarefa.domain.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,7 +26,7 @@ public class Tarefa {
 	
 	private String descricao;
 	
-	private Date vencimento;
+	private LocalDate vencimento;
 	
 	private Boolean prioridade;
 	

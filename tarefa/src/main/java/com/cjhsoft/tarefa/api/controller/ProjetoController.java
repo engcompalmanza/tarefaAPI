@@ -20,6 +20,11 @@ import com.cjhsoft.tarefa.domain.service.ProjetoService;
 
 import jakarta.validation.Valid;
 
+//{
+//    "nome_do_Projeto":"projeto 1",
+//    "descricao":"projeto 1" 
+//}
+
 @RestController
 @RequestMapping("/projetos")
 public class ProjetoController {
