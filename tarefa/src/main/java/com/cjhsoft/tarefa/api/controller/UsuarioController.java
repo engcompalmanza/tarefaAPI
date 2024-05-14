@@ -21,6 +21,13 @@ import com.cjhsoft.tarefa.domain.service.UsuarioService;
 
 import jakarta.validation.Valid;
 
+//{
+//    "nome":"jose carlos",
+//    "email":"jose@gmail.com",
+//    "senha":"12345",
+//    "tarefasIds":[1, 2]
+//}
+
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
