@@ -45,7 +45,7 @@ public class ProjetoControllerTest {
 	@MockBean
 	ProjetoRepository projetoRepository;
 	
-	ObjectMapper mapper = new ObjectMapper();
+	ObjectMapper mapper;
 	
 	ProjetoInput projeInputComErroDeValidacao;
 	ProjetoInput projetoInput;
@@ -54,13 +54,7 @@ public class ProjetoControllerTest {
 	
   @BeforeEach
   public void setup() {
-  	projetoInput = new ProjetoInput("nome-teste", "descricao-teste");
-  	projeto = new Projeto(1L, "nome-teste", "descricao-teste");
-  	projetoOutput = new ProjetoOutput(1L, "nome-teste", "descricao-teste");
-  	
-  	projeInputComErroDeValidacao = new ProjetoInput(null, "descricao-teste");
-  	
-//  mockMvc = MockMvcBuilders.standaloneSetup(projetoController).build();
+	  mapper = new ObjectMapper();
   }
   
 	@Test
@@ -75,7 +69,9 @@ public class ProjetoControllerTest {
   @Test
   @DisplayName("Deve lançar codigo 400-Bad-Request pq tem erro de validacao no nome do projeto que deve ser não nulo")
   void cadastroFalhoPorCausaDeErroDeValidacaoNoNomeDoProjeto() throws Exception{
-  	mockMvc.perform(post("/projetos")
+	  projeInputComErroDeValidacao = new ProjetoInput(null, "descricao-teste");
+	  
+	  mockMvc.perform(post("/projetos")
   		.contentType(MediaType.APPLICATION_JSON)
   		.content(mapper.writeValueAsString(projeInputComErroDeValidacao)))
   		.andExpect(MockMvcResultMatchers.status().isBadRequest());
@@ -84,21 +80,20 @@ public class ProjetoControllerTest {
 	@Test
 	@DisplayName("Faz o cadastro com sucesso de um Projeto")
 	void cadastroComSucesso() throws Exception{
+	  	projetoInput = new ProjetoInput("nome-teste", "descricao-teste");
+	  	projetoOutput = new ProjetoOutput(null , "nome-teste", "descricao-teste");
+	  	projeto = new Projeto(1L, "nome-teste", "descricao-teste");
+		
 		when(projetoMapper.toEntity(projetoInput)).thenReturn(projeto);
 		when(projetoService.cadastrar(projeto)).thenReturn(projeto);
 		when(projetoMapper.toModelOutput(projeto)).thenReturn(projetoOutput);
 		
-		MvcResult result = mockMvc.perform(post("/projetos")
+		mockMvc.perform(post("/projetos")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(mapper.writeValueAsString(projetoInput)))
 			.andExpect(MockMvcResultMatchers.status().isCreated())
 			.andExpect(jsonPath("$.nome_do_Projeto").value(projetoInput.getNome_do_Projeto()))
-			.andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(projetoInput)))
-			.andReturn();
-		
-//		System.out.println("sout: "+mapper.writeValueAsString(projetoInput));
-//		String content = result.getResponse().getContentAsString();
-//		System.out.println("Conteúdo da resposta: " + content);
+			.andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(projetoOutput)));
 	}
 	
 	  @Test
@@ -106,29 +101,27 @@ public class ProjetoControllerTest {
 	  void recuperarTodosDeveRetornarListaVaziaQuandoNaoHouveCadastros() throws Exception{
 	  	when(projetoMapper.toCollectionOutput(anyList())).thenReturn(Collections.emptyList());
 	  	
-	  	MvcResult result = mockMvc.perform(get("/projetos")
+	  	mockMvc.perform(get("/projetos")
 	  		.contentType(MediaType.APPLICATION_JSON))
 	  		.andExpect(MockMvcResultMatchers.status().isOk())
 	  		.andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(Collections.emptyList())))
-	  		.andReturn();
-	
-//	  	String content = result.getResponse().getContentAsString();
-//	  	System.out.println("Conteúdo da resposta: " + content);
+			.andExpect(jsonPath("$").isArray())
+			.andExpect(jsonPath("$.length()").value(0));
 	}
 	  
     @Test
     @DisplayName("Deve retornar uma lista com apenas um projeto cadastrado")
     void recuperarTodosDeveRetornarApenasUmProjetoQuandoHouverUmProjetoCadastrado() throws Exception{
+      	projetoOutput = new ProjetoOutput(1L, "nome-teste", "descricao-teste");
+    	
     	when(projetoMapper.toCollectionOutput(anyList())).thenReturn(Collections.singletonList(projetoOutput));
     	
-    	MvcResult result = mockMvc.perform(get("/projetos")
+    	mockMvc.perform(get("/projetos")
     		.contentType(MediaType.APPLICATION_JSON))
     		.andExpect(MockMvcResultMatchers.status().isOk())
     		.andExpect(MockMvcResultMatchers.content().json(mapper.writeValueAsString(Collections.singletonList(projetoOutput))))
-    		.andReturn();
-
-//    	String content = result.getResponse().getContentAsString();
-//    	System.out.println("Conteúdo da resposta: " + content);
+    		.andExpect(jsonPath("$").isArray())
+    		.andExpect(jsonPath("$.length()").value(1));
     }
 }
 
