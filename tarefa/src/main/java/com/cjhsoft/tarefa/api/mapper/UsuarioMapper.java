@@ -1,5 +1,6 @@
 package com.cjhsoft.tarefa.api.mapper;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,13 @@ public class UsuarioMapper {
 		usuario.setNome(usuarioInput.getNome());
 		usuario.setEmail(usuarioInput.getEmail());
 		usuario.setSenha(usuarioInput.getSenha());
-		usuario.setTarefas(usuarioInput.getTarefasIds().stream().map(tarefa_id ->
+		if(usuarioInput.getTarefasIds().isEmpty()) {
+			usuario.setTarefas(Collections.emptyList());
+		}else {
+			usuario.setTarefas(usuarioInput.getTarefasIds().stream().map(tarefa_id ->
 			tarefaRepository.findById(tarefa_id).get())
-			.toList());
+			.toList());				
+		}
 		return usuario;
 	}
 	
