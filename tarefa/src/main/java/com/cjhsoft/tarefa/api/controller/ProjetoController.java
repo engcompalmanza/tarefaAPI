@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,4 +53,29 @@ public class ProjetoController {
 		return projetoMapper.toModelOutput(projetoCadastrado);
 	}
 	
+	@PostMapping("/{uid}")
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public ProjetoOutput cadastroProjeto(@Valid @RequestBody ProjetoInput projetoInput, @PathVariable Long uid) {
+		Projeto entidadeProjeto = projetoMapper.toEntity(projetoInput);
+		Projeto projetoCadastrado = projetoService.cadastrarProjeto(entidadeProjeto, uid);
+		return projetoMapper.toModelOutput(projetoCadastrado);
+	}
+	
+	
+	@GetMapping("/{nomeProjeto}")
+	ResponseEntity<ProjetoOutput> projetoPeloNome(@PathVariable String nomeProjeto){
+		ProjetoOutput projetoOutput = projetoMapper.toModelOutput(projetoService.projetoPeloNome(nomeProjeto));
+		return ResponseEntity.status(HttpStatus.OK).body(projetoOutput);
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+

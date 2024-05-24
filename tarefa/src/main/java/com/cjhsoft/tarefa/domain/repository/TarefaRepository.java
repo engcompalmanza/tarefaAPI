@@ -7,5 +7,5 @@ import com.cjhsoft.tarefa.domain.model.Tarefa;
 
 @Repository
 public interface TarefaRepository extends JpaRepository<Tarefa, Long>{
-
+	
 }

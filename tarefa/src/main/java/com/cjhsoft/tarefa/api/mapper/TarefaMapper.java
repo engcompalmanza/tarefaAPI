@@ -1,6 +1,7 @@
 package com.cjhsoft.tarefa.api.mapper;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,7 +25,9 @@ public class TarefaMapper {
 		tarefa.setStatus(tarefaInput.getStatus());
 		tarefa.setPrioridade(tarefaInput.getPrioridade());
 		tarefa.setVencimento(tarefaInput.getVencimento());
-		tarefa.setProjeto( projetoRepository.findById(tarefaInput.getProjeto()).get() );
+		
+		Projeto projeto = projetoRepository.findById(tarefaInput.getProjeto()).get();
+		tarefa.setProjeto(projeto);
 		return tarefa;
 	}
 	

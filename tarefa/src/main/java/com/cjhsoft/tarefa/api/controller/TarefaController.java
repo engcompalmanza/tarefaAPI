@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cjhsoft.tarefa.api.mapper.TarefaMapper;
+import com.cjhsoft.tarefa.api.model.ProjetoInput;
 import com.cjhsoft.tarefa.api.model.ProjetoOutput;
 import com.cjhsoft.tarefa.api.model.TarefaInput;
 import com.cjhsoft.tarefa.api.model.TarefaOutput;
+import com.cjhsoft.tarefa.domain.model.Projeto;
 import com.cjhsoft.tarefa.domain.model.Tarefa;
 import com.cjhsoft.tarefa.domain.repository.TarefaRepository;
 import com.cjhsoft.tarefa.domain.service.TarefaService;
@@ -51,6 +54,15 @@ public class TarefaController {
 		tarefaService.cadastrar(tarefa);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
+	
+	@PostMapping("/{uid}")
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public TarefaOutput cadastroTarefa(@Valid @RequestBody TarefaInput tarefaInput, @PathVariable Long uid) {
+		Tarefa entidadeTarefa = tarefaMapper.toEntity(tarefaInput);
+		Tarefa tarefaCadastrada = tarefaService.cadastrarTarefa(entidadeTarefa, uid);
+		return tarefaMapper.toModelOutput(tarefaCadastrada);
+	}
+	
 	
 	@GetMapping
 	public ResponseEntity<List<TarefaOutput>> recuperaTodos(){

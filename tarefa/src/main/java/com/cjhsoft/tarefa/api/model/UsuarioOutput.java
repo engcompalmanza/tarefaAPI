@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UsuarioOutput {
 	
+	private Long id;
+	
 	private String nome;
 	
 	private String email;

@@ -31,15 +31,19 @@ public class UsuarioMapper {
 		if(usuarioInput.getTarefasIds().isEmpty()) {
 			usuario.setTarefas(Collections.emptyList());
 		}else {
-			usuario.setTarefas(usuarioInput.getTarefasIds().stream().map(tarefa_id ->
-			tarefaRepository.findById(tarefa_id).get())
-			.toList());				
+			usuario.setTarefas(
+				usuarioInput.getTarefasIds().stream().map(tarefa_id ->
+					tarefaRepository.findById(tarefa_id).get()
+				)
+				.toList()
+			);				
 		}
 		return usuario;
 	}
 	
 	public UsuarioOutput toModelOutput(Usuario usuario) {
 		UsuarioOutput usuarioOutput = new UsuarioOutput();
+		usuarioOutput.setId(usuario.getId());
 		usuarioOutput.setNome(usuario.getNome());
 		usuarioOutput.setEmail(usuario.getEmail());
 		usuarioOutput.setNomestarefas(
